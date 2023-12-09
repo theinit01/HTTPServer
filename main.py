@@ -50,6 +50,7 @@ class HTTPServer(TCPServer):
     status_codes ={
         200: 'OK',
         404: 'Not Found',
+        403: 'Access Forbidden',
         501: 'Not implemented',
     }
 
@@ -63,9 +64,18 @@ class HTTPServer(TCPServer):
             handler = getattr(self, 'handle_%s' % request.method)
         except AttributeError:
             handler = self.HTTP_501_handler
+        
         response = handler(request)
 
         return response
+    
+    def serve_forbidden_page(self):
+        response_line = self.response_line(status_code=403)
+        response_headers = self.response_headers()
+        blank_line = b"\r\n"
+        response_body = b"<h1>403 Forbidden:</h1><hr><p>Access to this resource is restricted.</p>"
+
+        return b"".join([response_line, response_headers, blank_line, response_body])
     
     def HTTP_501_handler(self, request):    #handler for all the rest of the methods
         response_line = self.response_line(status_code=501)
@@ -83,6 +93,10 @@ class HTTPServer(TCPServer):
 
         if filename == '':
             filename = 'index.html'
+        
+        if filename == 'main.py':
+            return self.serve_forbidden_page()
+        
         else:
             filename = request.uri.strip('/')
         if os.path.exists(filename):
