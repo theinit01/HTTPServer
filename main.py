@@ -91,11 +91,11 @@ class HTTPServer(TCPServer):
     def handle_GET(self, request):      #handler for GET
         filename = request.uri.strip('/')
 
-        if filename == '':
-            filename = 'index.html'
-        
         if filename == 'main.py':
             return self.serve_forbidden_page()
+        
+        if filename == '':
+            filename = 'index.html'
         
         else:
             filename = request.uri.strip('/')
@@ -113,7 +113,7 @@ class HTTPServer(TCPServer):
         else:
             response_line = self.response_line(status_code=404)
             response_headers = self.response_headers()
-            response_body = b"<h1>404 Not Found</h1>"
+            response_body = b"<h1>404 Not Found</h1><p> Requested resource couldn't be found<p><hr>"
 
         blank_line = b"\r\n"
 
