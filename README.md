@@ -8,17 +8,34 @@ HTTPServer is a simple implementation of an HTTP server in Python, designed for 
 
 ### 1.  TCPServer Class
 
+<p align="center">
+  <img src="src/tcp-socket.png" alt="Creating a tcp server as base">
+</p>
+
+
 The `TCPServer` class serves as a generic TCP server and provides a foundation for the HTTP server. It initializes a socket, binds it to a specified host and port, and listens for incoming connections. The `start` method of `TCPServer` listens for incoming connections and, upon connection, handles the request using the `handle_request` method.
 
 ### 2.  HTTPServer Class
+
+<p align="center">
+  <img src="src/http-speak.png" alt="Teaching HTTP protocol to our server">
+</p>
 
 The `HTTPServer` class is a subclass of `TCPServer` and is specifically tailored for handling HTTP requests. It overrides the `handle_request` method to determine the appropriate action based on the request method (GET, POST, etc.). The server supports basic HTTP status codes (200, 404, 403, 501) and has corresponding handlers for each.
 
 ### 3 . HTTPRequest Class
 
+<p align="center">
+  <img src="src/req.jpg" alt="Typical HTTP request">
+</p>
+
 The `HTTPRequest` class is responsible for parsing incoming HTTP requests. It extracts information such as the request method, URI, and HTTP version from the raw request data.
 
 ### 4.  Handling GET Requests
+
+<p align="center">
+  <img src="src/reqline.png" alt="request">
+</p>
 
 The server includes a handler for GET requests (`handle_GET`). It processes the requested file, checks its existence, determines the MIME type, and sends an appropriate response.
 
